@@ -59,3 +59,23 @@ GROUP BY
     TO_CHAR(o.order_purchase_timestamp, 'YYYY-MM')
 ORDER BY
     order_month;
+
+ Query 3: Orders and revenue by state
+
+SELECT
+    customer_state     AS state,
+    COUNT(DISTINCT o.order_id) AS total_orders,
+    ROUND(SUM(ot.price),2) AS total_revenue,
+    ROUND(AVG(ot.price),2) AS avg_order_value,
+    ROUND(COUNT(DISTINCT o.order_id) * 100 /
+        SUM(COUNT(DISTINCT o.order_id)) OVER(),2) AS order_share_pct
+FROM 
+    ORDERS o 
+    JOIN ORDER_ITEMS ot
+        ON o.order_id = ot.order_id
+    JOIN CUSTOMERS c
+        ON o.customer_id = c.customer_id
+WHERE o.order_status = 'delivered'
+GROUP BY c.customer_state
+ORDER BY total_orders DESC;
+
