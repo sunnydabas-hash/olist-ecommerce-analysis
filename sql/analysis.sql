@@ -31,3 +31,31 @@ GROUP BY
 ORDER BY 
     total_revenue DESC
 FETCH FIRST 10 ROWS ONLY;
+
+
+ Monthly revenue trend
+
+-- ============================================
+-- QUERY 2 (FIXED): Monthly Revenue Trend
+-- Business Question: Is the business growing month over month?
+-- Tables Used: ORDER_ITEMS, ORDERS
+-- ============================================
+
+SELECT
+    TO_CHAR(o.order_purchase_timestamp, 'YYYY-MM')    AS order_month,
+    COUNT(DISTINCT o.order_id)                         AS total_orders,
+    ROUND(SUM(oi.price), 2)                            AS monthly_revenue,
+    ROUND(AVG(oi.price), 2)                            AS avg_order_value,
+    ROUND(SUM(oi.price) - LAG(SUM(oi.price))
+        OVER (ORDER BY TO_CHAR(o.order_purchase_timestamp, 'YYYY-MM')), 2) AS revenue_vs_prev_month
+FROM
+    ORDERS o
+    JOIN ORDER_ITEMS oi
+        ON o.order_id = oi.order_id
+WHERE
+    o.order_status = 'delivered'
+    AND o.order_purchase_timestamp IS NOT NULL
+GROUP BY
+    TO_CHAR(o.order_purchase_timestamp, 'YYYY-MM')
+ORDER BY
+    order_month;
