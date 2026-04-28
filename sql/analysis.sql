@@ -104,3 +104,40 @@ GROUP BY ct.product_category_name_english
 ORDER BY late_pct DESC
 FETCH FIRST 15 ROWS ONLY;
 
+Add Query 5: Late delivery impact on review scores
+
+-- ============================================
+-- QUERY 5: Late Delivery Impact on Review Scores
+-- Business Question: Does late delivery hurt customer satisfaction?
+-- Tables Used: ORDERS, REVIEWS
+-- ============================================
+
+SELECT
+    CASE 
+        WHEN TO_DATE(o.order_delivered_customer_date, 'YYYY-MM-DD HH24:MI:SS') <= o.order_estimated_delivery_date 
+        THEN 'On Time'
+        ELSE 'Late'
+    END                                         AS delivery_status,
+    COUNT(DISTINCT o.order_id)                  AS total_orders,
+    ROUND(AVG(r.review_score), 2)               AS avg_review_score,
+    SUM(CASE WHEN r.review_score = 5 THEN 1 ELSE 0 END) AS five_star,
+    SUM(CASE WHEN r.review_score = 4 THEN 1 ELSE 0 END) AS four_star,
+    SUM(CASE WHEN r.review_score = 3 THEN 1 ELSE 0 END) AS three_star,
+    SUM(CASE WHEN r.review_score = 2 THEN 1 ELSE 0 END) AS two_star,
+    SUM(CASE WHEN r.review_score = 1 THEN 1 ELSE 0 END) AS one_star
+FROM
+    ORDERS o
+    JOIN REVIEWS r
+        ON o.order_id = r.order_id
+WHERE
+    o.order_status = 'delivered'
+    AND o.order_delivered_customer_date IS NOT NULL
+    AND o.order_estimated_delivery_date IS NOT NULL
+GROUP BY
+    CASE 
+        WHEN TO_DATE(o.order_delivered_customer_date, 'YYYY-MM-DD HH24:MI:SS') <= o.order_estimated_delivery_date 
+        THEN 'On Time'
+        ELSE 'Late'
+    END
+ORDER BY
+    avg_review_score DESC;
