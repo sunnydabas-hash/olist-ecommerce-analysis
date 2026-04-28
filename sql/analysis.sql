@@ -167,3 +167,41 @@ WHERE o.order_status = 'delivered'
 group by ct.product_category_name_english
 ORDER BY avg_item_price DESc
 FETCH FIRST 15 ROWS ONLY;
+
+
+
+-- ============================================
+-- QUERY 7: Top 10 Sellers by Revenue
+-- Business Question: Who are our best performing sellers
+--                   and how reliable are they?
+-- Tables Used: ORDER_ITEMS, ORDERS, SELLERS, REVIEWS
+-- ============================================
+
+SELECT
+    oi.seller_id                                AS seller_id,
+    s.seller_city                               AS seller_city,
+    s.seller_state                              AS seller_state,
+    COUNT(DISTINCT oi.order_id)                 AS total_orders,
+    ROUND(SUM(oi.price), 2)                     AS total_revenue,
+    ROUND(AVG(oi.price), 2)                     AS avg_item_price,
+    ROUND(AVG(r.review_score), 2)               AS avg_review_score,
+    SUM(CASE WHEN TO_DATE(o.order_delivered_customer_date, 'YYYY-MM-DD HH24:MI:SS') 
+        > o.order_estimated_delivery_date 
+        THEN 1 ELSE 0 END)                      AS late_deliveries
+FROM
+    ORDER_ITEMS oi
+    JOIN ORDERS o
+        ON oi.order_id = o.order_id
+    JOIN SELLERS s
+        ON oi.seller_id = s.seller_id
+    JOIN REVIEWS r
+        ON oi.order_id = r.order_id
+WHERE
+    o.order_status = 'delivered'
+GROUP BY
+    oi.seller_id,
+    s.seller_city,
+    s.seller_state
+ORDER BY
+    total_revenue DESC
+FETCH FIRST 10 ROWS ONLY;
