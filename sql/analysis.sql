@@ -234,3 +234,44 @@ GROUP BY
     p.payment_type
 ORDER BY
     total_orders DESC;
+
+-- ============================================
+-- QUERY 9: Peak Order Days and Hours
+-- Business Question: When do customers shop the most?
+-- Tables Used: ORDERS
+-- ============================================
+
+SELECT
+    TO_CHAR(order_purchase_timestamp, 'DY')     AS day_of_week,
+    TO_CHAR(order_purchase_timestamp, 'D')      AS day_num,
+    COUNT(order_id)                             AS total_orders,
+    ROUND(COUNT(order_id) * 100 /
+        SUM(COUNT(order_id)) OVER (), 2)        AS order_share_pct
+FROM
+    ORDERS
+WHERE
+    order_status = 'delivered'
+GROUP BY
+    TO_CHAR(order_purchase_timestamp, 'DY'),
+    TO_CHAR(order_purchase_timestamp, 'D')
+ORDER BY
+    day_num;
+
+
+-- ============================================
+-- QUERY 9B: Peak Order Hours
+-- ============================================
+
+SELECT
+    TO_CHAR(order_purchase_timestamp, 'HH24')   AS hour_of_day,
+    COUNT(order_id)                             AS total_orders,
+    ROUND(COUNT(order_id) * 100 /
+        SUM(COUNT(order_id)) OVER (), 2)        AS order_share_pct
+FROM
+    ORDERS
+WHERE
+    order_status = 'delivered'
+GROUP BY
+    TO_CHAR(order_purchase_timestamp, 'HH24')
+ORDER BY
+    hour_of_day;
