@@ -141,3 +141,29 @@ GROUP BY
     END
 ORDER BY
     avg_review_score DESC;
+
+avg_price_value
+
+SELECT 
+    ct.product_category_name_english   AS  category,
+    COUNT(DISTINCT oi.order_id)       AS Total_orders,
+    ROUND(SUM(oi.price),2)  AS total_revenue,
+    ROUND(AVG(oi.price),2)  AS avg_item_price,
+    ROUND(MAX(oi.price),2)  AS max_item_price,
+    ROUND(MIN(oi.price),2)  AS min_item_price,
+    ROUND(SUM(oi.freight_value),2) AS total_freight,
+    ROUND(AVG(oi.freight_value),2) AS avg_freight
+    
+
+FROM    
+    ORDER_ITEMS oi
+    JOIN PRODUCTS p
+        ON oi.product_id = p.product_id
+    JOIN CATEGORY_TRANSLATION ct
+        ON p.product_category_name = ct.product_category_name
+    JOIN ORDERS o
+        ON oi.order_id = o.order_id
+WHERE o.order_status = 'delivered'
+group by ct.product_category_name_english
+ORDER BY avg_item_price DESc
+FETCH FIRST 15 ROWS ONLY;
