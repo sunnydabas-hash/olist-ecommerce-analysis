@@ -79,3 +79,28 @@ WHERE o.order_status = 'delivered'
 GROUP BY c.customer_state
 ORDER BY total_orders DESC;
 
+Add Query 4: Late delivery analysis by category
+
+-- ============================================
+-- QUERY 4: Late Delivery Analysis
+-- Business Question: What % of orders are delivered late
+--                   and which categories suffer the most?
+-- ============================================
+
+SELECT
+    ct.product_category_name_english AS category,
+    COUNT(DISTINCT o.order_id) AS total_orders,
+    SUM(CASE WHEN TO_DATE(o.order_delivered_customer_date, 'YYYY-MM-DD HH24:MI:SS') > o.order_estimated_delivery_date THEN 1 ELSE 0 END) AS late_deliveries,
+    ROUND(SUM(CASE WHEN TO_DATE(o.order_delivered_customer_date, 'YYYY-MM-DD HH24:MI:SS') > o.order_estimated_delivery_date THEN 1 ELSE 0 END) * 100 / COUNT(DISTINCT o.order_id), 2) AS late_pct,
+    ROUND(AVG(CASE WHEN TO_DATE(o.order_delivered_customer_date, 'YYYY-MM-DD HH24:MI:SS') > o.order_estimated_delivery_date THEN (TO_DATE(o.order_delivered_customer_date, 'YYYY-MM-DD HH24:MI:SS') - o.order_estimated_delivery_date) ELSE NULL END), 1) AS avg_days_late
+FROM ORDERS o
+JOIN ORDER_ITEMS oi ON o.order_id = oi.order_id
+JOIN PRODUCTS p ON oi.product_id = p.product_id
+JOIN CATEGORY_TRANSLATION ct ON p.product_category_name = ct.product_category_name
+WHERE o.order_status = 'delivered'
+AND o.order_delivered_customer_date IS NOT NULL
+AND o.order_estimated_delivery_date IS NOT NULL
+GROUP BY ct.product_category_name_english
+ORDER BY late_pct DESC
+FETCH FIRST 15 ROWS ONLY;
+
