@@ -205,3 +205,32 @@ GROUP BY
 ORDER BY
     total_revenue DESC
 FETCH FIRST 10 ROWS ONLY;
+
+
+-- ============================================
+-- QUERY 8: Payment Methods Analysis
+-- Business Question: How do customers prefer to pay
+--                   and how much do they spend per method?
+-- Tables Used: PAYMENTS, ORDERS
+-- ============================================
+
+SELECT
+    p.payment_type                              AS payment_method,
+    COUNT(DISTINCT p.order_id)                  AS total_orders,
+    ROUND(SUM(p.payment_value), 2)              AS total_revenue,
+    ROUND(AVG(p.payment_value), 2)              AS avg_payment_value,
+    ROUND(MAX(p.payment_value), 2)              AS max_payment_value,
+    ROUND(COUNT(DISTINCT p.order_id) * 100 /
+        SUM(COUNT(DISTINCT p.order_id))
+        OVER (), 2)                             AS order_share_pct,
+    ROUND(AVG(p.payment_installments), 1)       AS avg_installments
+FROM
+    PAYMENTS p
+    JOIN ORDERS o
+        ON p.order_id = o.order_id
+WHERE
+    o.order_status = 'delivered'
+GROUP BY
+    p.payment_type
+ORDER BY
+    total_orders DESC;
