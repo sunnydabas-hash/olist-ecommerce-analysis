@@ -57,16 +57,19 @@ Monday (16.27%) and Tuesday (16.07%) are the busiest days. Peak hour is **4PM (6
 ## 📊 Dashboards
 
 ### Tableau Dashboard
-> Revenue Trend · Category Revenue · Seller Performance · Payment Methods · Late Delivery Analysis
+> <img width="1456" height="848" alt="Screenshot 2026-05-01 at 3 35 56 PM" src="https://github.com/user-attachments/assets/788028f9-c942-4d33-ab26-762cef26c8c0" />
+ · Seller Performance · Payment Methods · Late Delivery Analysis
+<img width="1422" height="867" alt="Screenshot 2026-05-01 at 3 35 11 PM" src="https://github.com/user-attachments/assets/0adde2c4-9cfe-47d2-851c-9c5de60bc1c8" />
 
 🔗 **[View Live Tableau Dashboard](#)** ← *(add your Tableau Public link here)*
 
 ### Interactive Brazil State Map
 > Built with D3.js — hover over any state to see orders, revenue, and avg order value
 
-🔗 **[View Interactive Map](brazil_map.html)**
+🔗 **[View Interactive Map](file:///Users/sunny/Downloads/brazil_map.html)**
 
----
+---<img width="1433" height="868" alt="Screenshot 2026-05-01 at 3 34 06 PM" src="https://github.com/user-attachments/assets/41169896-6549-499e-a1db-8dfa6766b0f6" />
+
 
 ## 🗂️ Project Structure
 
