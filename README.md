@@ -15,7 +15,7 @@ The goal: turn raw transactional data into **actionable business recommendations
 ## 🎯 Business Questions Answered
 
 | # | Question | Tool |
-|---|----------|------|
+
 | 1 | Which product categories generate the most revenue? | SQL + Tableau |
 | 2 | Is the business growing month over month? | SQL + Tableau |
 | 3 | Which Brazilian states drive the most orders? | SQL + D3.js Map |
@@ -149,8 +149,7 @@ States like Bahia, Ceará, and Pernambuco are large population centers with only
 
 **Sunny**
 Data Analyst | Oracle SQL · Tableau · Data Storytelling
-
-🔗 [LinkedIn](#) | 🔗 [GitHub](#) | 📧 your@email.com
+[Linkedln](https://www.linkedin.com/public-profile/settings?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_self_edit_contact-info%3BSBILCRaSSLWuoOxO2SIe3Q%3D%3D) 🔗 [[GitHub](https://github.com/repos?q=owner%3A%40me) | 📧 tarundabas55@gmail.com
 
 ---
 
