@@ -61,7 +61,9 @@ Monday (16.27%) and Tuesday (16.07%) are the busiest days. Peak hour is **4PM (6
  · Seller Performance · Payment Methods · Late Delivery Analysis
 <img width="1422" height="867" alt="Screenshot 2026-05-01 at 3 35 11 PM" src="https://github.com/user-attachments/assets/0adde2c4-9cfe-47d2-851c-9c5de60bc1c8" />
 
-🔗 **[View Live Tableau Dashboard](#)** ← *(add your Tableau Public link here)*
+🔗 **[View Live Tableau Dashboard](https://public.tableau.com/app/profile/tarun.dabas/viz/MonthlyRevenueTrend_17778298839080/OlistE-CommerceDashboard?publish=yes)
+   **[Seller_Performace_Dashboard](https://public.tableau.com/app/profile/tarun.dabas/viz/SellerPerformance_PaymentMethod_Late_Delivery/Dashboard2?publish=yes)
+   **[Orderdata_bydate](https://public.tableau.com/app/profile/tarun.dabas/viz/OrderByDateOfWeek_Average_Review/Dashboard3?publish=yes)
 
 ### Interactive Brazil State Map
 > Built with D3.js — hover over any state to see orders, revenue, and avg order value
